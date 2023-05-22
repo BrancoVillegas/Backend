@@ -122,7 +122,7 @@ public class PaymentPlanController {
         }
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Payment Plan", notes = "Method to create a Payment Plan")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Payment Plan created"),
