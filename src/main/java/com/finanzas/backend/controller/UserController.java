@@ -106,7 +106,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create User", notes = "Method to create a new User")
     @ApiResponses({
             @ApiResponse(code = 201, message = "User created"),
