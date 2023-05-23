@@ -46,4 +46,10 @@ public class InputInformation {
     @Column(name = "annual_effective_cost_rate", nullable = false)
     private Float annualEffectiveCostRate;
 
+    @Column(name = "customer_first_name", nullable = false, length = 50)
+    private String customerFirstName;
+
+    @Column(name = "customer_last_name", nullable = false, length = 50)
+    private String customerLastName;
+
 }

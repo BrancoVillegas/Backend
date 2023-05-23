@@ -41,4 +41,14 @@ public class InputInformationServiceImpl implements IInputInformationService {
         return inputInformationRepository.findById(id);
     }
 
+    @Override
+    public List<InputInformation> findByCustomerFirstName(String customerFirstName) throws Exception {
+        return inputInformationRepository.findByCustomerFirstName(customerFirstName);
+    }
+
+    @Override
+    public List<InputInformation> findByCustomerLastName(String customerLastName) throws Exception {
+        return inputInformationRepository.findByCustomerLastName(customerLastName);
+    }
+
 }

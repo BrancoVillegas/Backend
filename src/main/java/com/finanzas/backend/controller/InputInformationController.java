@@ -69,6 +69,44 @@ public class InputInformationController {
         }
     }
 
+    @GetMapping(value = "/customer-first-name/{customerFirstName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Search Input Information by Customer First Name", notes = "Method for find a Input Information by Customer First Name")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Input Information found by Customer First Name"),
+            @ApiResponse(code = 404, message = "Input Information Not Found"),
+            @ApiResponse(code = 501, message = "Internal Server Error")
+    })
+    public ResponseEntity<List<InputInformation>> findByCustomerFirstName (@PathVariable("customerFirstName") String customerFirstName){
+        try {
+            List<InputInformation> inputInformation = inputInformationService.findByCustomerFirstName(customerFirstName);
+            if(inputInformation.size()>0)
+                return new ResponseEntity<>(inputInformation, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value = "/customer-last-name/{customerLastName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Search Input Information by Customer Last Name", notes = "Method for find a Input Information by Customer Last Name")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Input Information found by Customer Last Name"),
+            @ApiResponse(code = 404, message = "Input Information Not Found"),
+            @ApiResponse(code = 501, message = "Internal Server Error")
+    })
+    public ResponseEntity<List<InputInformation>> findByCustomerLastName (@PathVariable("customerLastName") String customerLastName){
+        try {
+            List<InputInformation> inputInformation = inputInformationService.findByCustomerLastName(customerLastName);
+            if(inputInformation.size()>0)
+                return new ResponseEntity<>(inputInformation, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Input Information", notes = "Method to create Input Information")
     @ApiResponses({
