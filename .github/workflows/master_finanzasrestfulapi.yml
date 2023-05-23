@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'FinanzasRESTfulAPI'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5F9B0684B0F74714A34B99DA26D2BFD9 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1B425D3E769E48109C82268F8300B586 }}
           package: '*.jar'
