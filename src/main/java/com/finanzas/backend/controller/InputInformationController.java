@@ -60,7 +60,7 @@ public class InputInformationController {
     public ResponseEntity<InputInformation> findById (@PathVariable("id") Long id){
         try {
             Optional<InputInformation> inputInformation = inputInformationService.getById(id);
-            if(!inputInformation.isPresent())
+            if(inputInformation.isPresent())
                 return new ResponseEntity<>(inputInformation.get(), HttpStatus.OK);
             else
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
