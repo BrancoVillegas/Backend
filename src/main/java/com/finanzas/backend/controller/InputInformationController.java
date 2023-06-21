@@ -1,7 +1,9 @@
 package com.finanzas.backend.controller;
 
 
+import com.finanzas.backend.entities.Consultation;
 import com.finanzas.backend.entities.InputInformation;
+import com.finanzas.backend.service.IConsultationService;
 import com.finanzas.backend.service.IInputInformationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,9 +27,11 @@ public class InputInformationController {
 
 
     private final IInputInformationService inputInformationService;
+    private final IConsultationService consultationService;
 
-    public InputInformationController(IInputInformationService inputInformationService) {
+    public InputInformationController(IInputInformationService inputInformationService, IConsultationService consultationService) {
         this.inputInformationService = inputInformationService;
+        this.consultationService = consultationService;
     }
 
 
@@ -107,17 +111,23 @@ public class InputInformationController {
         }
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Input Information", notes = "Method to create Input Information")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Input Information created"),
             @ApiResponse(code = 404, message = "Input Information not created"),
             @ApiResponse(code = 501, message = "Internal Server Error")
     })
-    public ResponseEntity<InputInformation> insertInputInformation(@Valid @RequestBody InputInformation inputInformation){
+    public ResponseEntity<InputInformation> insertInputInformation(@PathVariable("id") Long idConsultation, @RequestBody InputInformation inputInformation){
         try {
-            InputInformation inputInformationNew = inputInformationService.save(inputInformation);
-            return ResponseEntity.status(HttpStatus.CREATED).body(inputInformationNew);
+            Optional<Consultation> consultation = consultationService.getById(idConsultation);
+            if(!consultation.isPresent())
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            else{
+                inputInformation.setConsultation(consultation.get());
+                InputInformation inputInformationNew = inputInformationService.save(inputInformation);
+                return ResponseEntity.status(HttpStatus.CREATED).body(inputInformationNew);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

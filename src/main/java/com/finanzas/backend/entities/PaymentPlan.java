@@ -20,32 +20,17 @@ public class PaymentPlan implements Serializable {
     private Long id;
 
     @Column(name="monthly_fee", nullable = false)
-    private Float monthlyFee;
-
-    @Column(name="financing_amount", nullable = false)
-    private Float financingAmount;
-
-    @Column(name="good_payer_bonus", nullable = false)
-    private Float goodPayerBonus;
-
-    @Column(name="other_postage", nullable = false)
-    private Float otherPostage;
+    private Double monthlyFee;
 
     @Column(name="van", nullable = false)
-    private Float van;
+    private Double van;
 
-    @Column(name="tir", nullable = false)
-    private Float tir;
+    @Column(name="tcea", nullable = false)
+    private Double tcea;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name="consultation_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "input_information", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private InputInformation inputInformation;
-
+    private Consultation consultation;
 
 }

@@ -42,13 +42,8 @@ public class PaymentPlanServiceImpl implements IPaymentPlanService {
     }
 
     @Override
-    public List<PaymentPlan> findByUserId(Long id) throws Exception {
-        return paymentPlanRepository.findByUserId(id);
-    }
-
-    @Override
-    public List<PaymentPlan> findByInputInformationId(Long id) throws Exception {
-        return paymentPlanRepository.findByInputInformationId(id);
+    public List<PaymentPlan> findByConsultationId(Long id) throws Exception {
+        return paymentPlanRepository.findByConsultationId(id);
     }
 
 

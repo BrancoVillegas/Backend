@@ -1,12 +1,12 @@
 package com.finanzas.backend.controller;
 
 
+import com.finanzas.backend.entities.Consultation;
 import com.finanzas.backend.entities.InputInformation;
 import com.finanzas.backend.entities.PaymentPlan;
-import com.finanzas.backend.entities.User;
+import com.finanzas.backend.service.IConsultationService;
 import com.finanzas.backend.service.IInputInformationService;
 import com.finanzas.backend.service.IPaymentPlanService;
-import com.finanzas.backend.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,25 +16,25 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/payment-plan")
+@RequestMapping("/api/v1/payment-plans")
 @Api(tags = "Payment Plan", value = "Web Service RESTFul of Payment Plan")
 public class PaymentPlanController {
 
     private final IPaymentPlanService paymentPlanService;
 
-    private final IUserService userService;
+    private final IConsultationService consultationService;
 
-    private final IInputInformationService inputInformationService;
 
-    public PaymentPlanController(IPaymentPlanService paymentPlanService, IUserService userService, IInputInformationService inputInformationService) {
+
+    public PaymentPlanController(IPaymentPlanService paymentPlanService, IConsultationService consultationService, IInputInformationService inputInformationService) {
         this.paymentPlanService = paymentPlanService;
-        this.userService = userService;
-        this.inputInformationService = inputInformationService;
+        this.consultationService = consultationService;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,21 +77,21 @@ public class PaymentPlanController {
         }
     }
 
-    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Search Payment Plan by User Id", notes = "Method for find a Payment Plan by User Id")
+    @GetMapping(value = "/consultation/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Search Payment Plan by Consultation Id", notes = "Method for find a Payment Plan by Consultation Id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Payment Plan found by User Id"),
             @ApiResponse(code = 404, message = "Payment Plan Not Found"),
             @ApiResponse(code = 501, message = "Internal Server Error")
     })
-    public ResponseEntity<List<PaymentPlan>> findByUserId (@PathVariable("id") Long id){
+    public ResponseEntity<List<PaymentPlan>> findByConsultationId (@PathVariable("id") Long id){
         try {
-            Optional<User> user = userService.getById(id);
-            if(!user.isPresent()){
+            Optional<Consultation> consultation = consultationService.getById(id);
+            if(!consultation.isPresent()){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             else {
-                List<PaymentPlan> paymentPlan = paymentPlanService.findByUserId(id);
+                List<PaymentPlan> paymentPlan = paymentPlanService.findByConsultationId(id);
                 return new ResponseEntity<>(paymentPlan, HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -100,42 +100,21 @@ public class PaymentPlanController {
     }
 
 
-    @GetMapping(value = "/input-information/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Search Payment Plan by Input Information Id", notes = "Method for find a Payment Plan by Input Information Id")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Payment Plan found by Input Information Id"),
-            @ApiResponse(code = 404, message = "Payment Plan Not Found"),
-            @ApiResponse(code = 501, message = "Internal Server Error")
-    })
-    public ResponseEntity<List<PaymentPlan>> findByInputInformationId (@PathVariable("id") Long id){
-        try {
-            Optional<InputInformation> inputInformation = inputInformationService.getById(id);
-            if(!inputInformation.isPresent()){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            else {
-                List<PaymentPlan> paymentPlan = paymentPlanService.findByInputInformationId(id);
-                return new ResponseEntity<>(paymentPlan, HttpStatus.OK);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Create Payment Plan", notes = "Method to create a Payment Plan")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Payment Plan created"),
             @ApiResponse(code = 404, message = "Payment Plan not created"),
             @ApiResponse(code = 501, message = "Internal Server Error")
     })
-    public ResponseEntity<PaymentPlan> insertPaymentPlan(@PathVariable("id") Long userId, @RequestBody PaymentPlan paymentPlan){
+    public ResponseEntity<PaymentPlan> insertPaymentPlan(@PathVariable("id") Long consultationId, @RequestBody PaymentPlan paymentPlan){
         try {
-            Optional<User> user = userService.getById(userId);
-            if(!user.isPresent()){
+            Optional<Consultation> consultation = consultationService.getById(consultationId);
+            if(!consultation.isPresent()){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            } else{
-                paymentPlan.setUser(user.get());
+            }
+            else{
+                paymentPlan.setConsultation(consultation.get());
                 PaymentPlan paymentPlanNew = paymentPlanService.save(paymentPlan);
                 return ResponseEntity.status(HttpStatus.CREATED).body(paymentPlanNew);
             }
@@ -143,6 +122,7 @@ public class PaymentPlanController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update Payment Plan", notes = "Method to update a Payment Plan")
