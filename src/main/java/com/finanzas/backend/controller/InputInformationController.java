@@ -111,8 +111,29 @@ public class InputInformationController {
         }
     }
 
+    @GetMapping(value = "/consultation/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Search Input Information by Consultation Id", notes = "Method for find a Input Information by Consultation Id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Input Information found by Consultation Id"),
+            @ApiResponse(code = 404, message = "Input Information Not Found"),
+            @ApiResponse(code = 501, message = "Internal Server Error")
+    })
+    public ResponseEntity<List<InputInformation>> findByConsultationId (@PathVariable("id") Long id){
+        try {
+            Optional<Consultation> consultation = consultationService.getById(id);
+            if(!consultation.isPresent())
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            else{
+                List<InputInformation> inputInformation = inputInformationService.findByConsultationId(id);
+                return new ResponseEntity<>(inputInformation, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping(value="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create Input Information", notes = "Method to create Input Information")
+    @ApiOperation(value = "Create Input Information by Consultation Id", notes = "Method to create Input Information")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Input Information created"),
             @ApiResponse(code = 404, message = "Input Information not created"),
@@ -135,7 +156,7 @@ public class InputInformationController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Update Input Information data", notes = "Method to update Input Information")
+    @ApiOperation(value = "Update Input Information by Id", notes = "Method to update Input Information")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Input Information updated"),
             @ApiResponse(code = 404, message = "Input Information not updated"),
@@ -158,7 +179,7 @@ public class InputInformationController {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Delete Input Information", notes = "Method to delete Input Information")
+    @ApiOperation(value = "Delete Input Information by Id", notes = "Method to delete Input Information")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Input Information deleted"),
             @ApiResponse(code = 404, message = "Input Information not deleted"),

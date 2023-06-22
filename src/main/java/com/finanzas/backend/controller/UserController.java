@@ -124,7 +124,7 @@ public class UserController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Update User", notes = "Method to update a User")
+    @ApiOperation(value = "Update User by Id", notes = "Method to update a User")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User updated"),
             @ApiResponse(code = 404, message = "User not updated"),
@@ -146,7 +146,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Delete User", notes = "Method to delete a User")
+    @ApiOperation(value = "Delete User by Id", notes = "Method to delete a User")
     @ApiResponses({
             @ApiResponse(code = 200, message = "User deleted"),
             @ApiResponse(code = 404, message = "User not deleted"),

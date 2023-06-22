@@ -101,7 +101,7 @@ public class PaymentPlanController {
 
 
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create Payment Plan", notes = "Method to create a Payment Plan")
+    @ApiOperation(value = "Create Payment Plan by Consultation Id", notes = "Method to create a Payment Plan")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Payment Plan created"),
             @ApiResponse(code = 404, message = "Payment Plan not created"),
@@ -125,7 +125,7 @@ public class PaymentPlanController {
 
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Update Payment Plan", notes = "Method to update a Payment Plan")
+    @ApiOperation(value = "Update Payment Plan by Id", notes = "Method to update a Payment Plan")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Payment Plan updated"),
             @ApiResponse(code = 404, message = "Payment Plan not updated"),
@@ -147,7 +147,7 @@ public class PaymentPlanController {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Delete Payment Plan", notes = "Method to delete a Payment Plan")
+    @ApiOperation(value = "Delete Payment Plan by Id", notes = "Method to delete a Payment Plan")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Payment Plan deleted"),
             @ApiResponse(code = 404, message = "Payment Plan not deleted"),

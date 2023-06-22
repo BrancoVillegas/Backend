@@ -95,7 +95,7 @@ public class ConsultationController {
 
 
     @PostMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create Consultation", notes = "Method to create Consultation")
+    @ApiOperation(value = "Create Consultation by User Id", notes = "Method to create Consultation")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Consultation created"),
             @ApiResponse(code = 404, message = "Consultation not created"),
@@ -118,7 +118,7 @@ public class ConsultationController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Update Consultation data", notes = "Method to update Consultation")
+    @ApiOperation(value = "Update Consultation by Id", notes = "Method to update Consultation")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Consultation updated"),
             @ApiResponse(code = 404, message = "Consultation not updated"),
@@ -141,7 +141,7 @@ public class ConsultationController {
 
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Delete Consultation", notes = "Method to delete Consultation")
+    @ApiOperation(value = "Delete Consultation by Id", notes = "Method to delete Consultation")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Consultation deleted"),
             @ApiResponse(code = 404, message = "Consultation not deleted"),

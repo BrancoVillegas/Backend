@@ -51,4 +51,9 @@ public class InputInformationServiceImpl implements IInputInformationService {
         return inputInformationRepository.findByCustomerLastName(customerLastName);
     }
 
+    @Override
+    public List<InputInformation> findByConsultationId(Long id) throws Exception {
+        return inputInformationRepository.findByConsultationId(id);
+    }
+
 }
